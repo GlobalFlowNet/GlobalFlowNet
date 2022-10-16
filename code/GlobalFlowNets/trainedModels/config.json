@@ -1,0 +1,32 @@
+{
+    "tag": "GLNoWarp4YTBB",
+    "GlobalNetModelParameters": {
+        "warp": false,
+        "cfs": {
+            "6": 0,
+            "5": 1,
+            "4": 2,
+            "3": 3,
+            "2": 4
+        },
+        "compression": "DCT"
+    },
+    "Loss": {
+        "LossType": "AdaptiveGoogleRL",
+        "paras": {
+            "aStart": 0.25,
+            "cStart": 0.01,
+            "aStop": 0.01,
+            "cStop": 0.01,
+            "span": 40000
+        }
+    },
+    "trainParas": {
+        "optim": "Adam",
+        "lr": 0.0001,
+        "iters": 200000,
+        "batchSize": 16,
+        "decayRate": 0.8,
+        "decayStep": 20000
+    }
+}
