@@ -1,22 +1,24 @@
-import torch
-import numpy as np
-from datetime import datetime
-import sys
-import os
-from GeneralConfig import WORKINGDIR, CUDADEVICES
-from shutil import copyfile
 import copy
-import torch.nn as nn
 import math
+import os
+import sys
+from datetime import datetime
+from shutil import copyfile
+
+import numpy as np
+import torch
+import torch.nn as nn
+from GeneralConfig import CUDADEVICES, WORKINGDIR
 from torch.optim import lr_scheduler
 
+
 def seed():
-	torch.manual_seed(0)
-	torch.backends.cudnn.deterministic = True
-	torch.backends.cudnn.benchmark = False
-	import numpy as np
-	np.random.seed(0)
-	print('Seeded')
+    torch.manual_seed(0)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    import numpy as np
+    np.random.seed(0)
+    print('Seeded')
 
 
 def getCurrentTimeStamp():
@@ -31,7 +33,7 @@ def deleteLastLine():
 
 def prepare(modelDir):
     saveDir = getCurrentTimeStamp()
-    modelDir = os.path.join(WORKINGDIR, modelDir,saveDir)
+    modelDir = os.path.join(WORKINGDIR, modelDir, saveDir)
     os.mkdir(modelDir)
     print("Model Dir: ", modelDir)
     return modelDir
@@ -42,15 +44,15 @@ def saveModel(model, modelDir, counter):
         model = model.module
 
     modelWts = copy.deepcopy(model.state_dict())
-    torch.save(modelWts, os.path.join(modelDir, str(counter)+'.pth'))
+    torch.save(modelWts, os.path.join(modelDir, str(counter) + '.pth'))
+
 
 def createLRScheduler(optimizer, maxIters, step):
     milestones = []
     start = step
-    for milestone in range(start,maxIters,step):
+    for milestone in range(start, maxIters, step):
         milestone = math.ceil(milestone)
         milestones.append(milestone)
 
-
-    lrScheduler = lr_scheduler.MultiStepLR(optimizer, milestones = milestones , gamma=0.5)
+    lrScheduler = lr_scheduler.MultiStepLR(optimizer, milestones=milestones, gamma=0.5)
     return lrScheduler
